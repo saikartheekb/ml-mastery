@@ -1,7 +1,7 @@
 /* Assessment Page Styles */
 .assessment-page {
   max-width: 100%;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .assessment-not-found {
@@ -282,7 +282,7 @@
 /* Results */
 .assessment-results {
   max-width: 500px;
-  margin: 0 auto;
+  margin: 0;
   padding: 2rem 1rem;
 }
 

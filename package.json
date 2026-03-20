@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^4.1.6",
+    "@supabase/supabase-js": "^2.99.3",
     "graphql": "^16.13.1",
     "katex": "^0.16.39",
     "react": "^19.2.4",

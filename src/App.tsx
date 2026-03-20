@@ -8,6 +8,7 @@ import Assessment from './pages/Assessment';
 import Progress from './pages/Progress';
 import Projects from './pages/Projects';
 import Project from './pages/Project';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="progress" element={<Progress />} />
           <Route path="projects" element={<Projects />} />
           <Route path="project/:projectId" element={<Project />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>

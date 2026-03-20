@@ -68,6 +68,13 @@ const Layout = () => {
                 <span className="nav-icon">💻</span>
                 <span>Projects</span>
               </Link>
+              <Link 
+                to="/settings" 
+                className={`nav-item ${location.pathname === '/settings' ? 'active' : ''}`}
+              >
+                <span className="nav-icon">⚙️</span>
+                <span>Settings</span>
+              </Link>
             </nav>
 
             {/* Progress Section */}

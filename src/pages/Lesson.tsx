@@ -6,6 +6,7 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { learningPath } from '../data/curriculum';
 import { getUserProgress, completeLesson, addTimeSpent } from '../services/progress';
+import { generateExplanation, AIProvider } from '../services/ai';
 import './Lesson.css';
 
 const Lesson: React.FC = () => {
@@ -15,6 +16,12 @@ const Lesson: React.FC = () => {
   const [startTime] = useState(Date.now());
   const [codeOutputs, setCodeOutputs] = useState<Record<string, string>>({});
   const [isRunning, setIsRunning] = useState(false);
+  
+  // AI Chat state
+  const [aiQuestion, setAiQuestion] = useState('');
+  const [aiResponse, setAiResponse] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -87,6 +94,46 @@ const Lesson: React.FC = () => {
       setCodeOutputs(prev => ({ ...prev, [exampleId]: `Error: ${error}` }));
     }
     setIsRunning(false);
+  };
+
+  // AI Ask function
+  const askAI = async () => {
+    if (!aiQuestion.trim()) return;
+    
+    // Get API key from localStorage
+    const savedSettings = localStorage.getItem('ai_settings');
+    if (!savedSettings) {
+      setAiError('Please configure your AI API key in Settings first!');
+      return;
+    }
+    
+    const settings = JSON.parse(savedSettings);
+    const apiKey = settings.provider === 'openai' ? settings.openaiKey : settings.anthropicKey;
+    
+    if (!apiKey) {
+      setAiError('Please add your API key in Settings!');
+      return;
+    }
+    
+    setAiLoading(true);
+    setAiError('');
+    
+    try {
+      const response = await generateExplanation(
+        { provider: settings.provider as AIProvider, apiKey },
+        {
+          topic: course?.title || 'Machine Learning',
+          concept: lesson?.title || '',
+          userQuestion: aiQuestion,
+          context: lesson?.content
+        }
+      );
+      setAiResponse(response.explanation);
+    } catch (err: any) {
+      setAiError(err.message || 'Failed to get AI response');
+    }
+    
+    setAiLoading(false);
   };
 
   return (
@@ -164,6 +211,49 @@ const Lesson: React.FC = () => {
               ))}
             </div>
           )}
+
+          {/* AI Assistant Section */}
+          <div className="ai-assistant-section">
+            <h2>🤖 Ask AI Assistant</h2>
+            <p className="ai-description">
+              Have questions about this lesson? Ask our AI tutor for explanations.
+            </p>
+            
+            <div className="ai-input-area">
+              <textarea
+                value={aiQuestion}
+                onChange={(e) => setAiQuestion(e.target.value)}
+                placeholder="Ask a question about this concept... (e.g., 'Can you explain matrix multiplication in simpler terms?')"
+                rows={3}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    askAI();
+                  }
+                }}
+              />
+              <button 
+                className="ai-ask-button" 
+                onClick={askAI}
+                disabled={aiLoading || !aiQuestion.trim()}
+              >
+                {aiLoading ? '🤔 Thinking...' : '💬 Ask'}
+              </button>
+            </div>
+
+            {aiError && (
+              <div className="ai-error">
+                {aiError}
+              </div>
+            )}
+
+            {aiResponse && (
+              <div className="ai-response">
+                <h3>Answer:</h3>
+                <ReactMarkdown>{aiResponse}</ReactMarkdown>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Sidebar */}
