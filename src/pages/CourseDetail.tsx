@@ -64,10 +64,10 @@ const CourseDetail: React.FC = () => {
         duration: l.duration,
         order: l.order
       }))
-    : staticCourse.lessons;
+    : staticCourse?.lessons || [];
 
-  const courseTitle = generatedCourse?.title || staticCourse?.title;
-  const courseDescription = generatedCourse?.description || staticCourse?.description;
+  const courseTitle = generatedCourse?.title || staticCourse?.title || '';
+  const courseDescription = generatedCourse?.description || staticCourse?.description || '';
 
   const getLessonProgress = (lessonId: string) => {
     return progress.completedLessons.includes(lessonId);
@@ -95,7 +95,7 @@ const CourseDetail: React.FC = () => {
         <Link to="/courses" className="back-link">← Back to Courses</Link>
         
         <div className="course-info">
-          <span className="course-icon">{generatedCourse ? '🧠' : staticCourse?.icon}</span>
+          <span className="course-icon">{generatedCourse ? '🧠' : staticCourse?.icon || '📚'}</span>
           <div className="course-title-section">
             {generatedCourse ? (
               <span className="phase-label">AI Generated</span>
