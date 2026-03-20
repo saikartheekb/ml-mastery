@@ -186,48 +186,48 @@ const CourseDetail: React.FC = () => {
 
         {/* Assessments Section - Only for static courses */}
         {!generatedCourse && (
-        <div className="content-section">
-          <h2>Assessments</h2>
-          <div className="assessments-list">
-            {course?.assessments.map(assessment => {
-              const isCompleted = progress.completedAssessments.includes(assessment.id);
-              const assessmentScore = progress.assessmentScores.find(s => s.assessmentId === assessment.id);
+          <div className="content-section">
+            <h2>Assessments</h2>
+            <div className="assessments-list">
+              {course?.assessments.map(assessment => {
+                const isCompleted = progress.completedAssessments.includes(assessment.id);
+                const assessmentScore = progress.assessmentScores.find(s => s.assessmentId === assessment.id);
 
-              return (
-                <div key={assessment.id} className={`assessment-item ${isCompleted ? 'completed' : ''}`}>
-                  <div className="assessment-info">
-                    <span className="assessment-icon">📝</span>
-                    <div>
-                      <h3>{assessment.title}</h3>
-                      <span className="assessment-meta">
-                        {assessment.questions.length} Questions • {assessment.duration} min
-                      </span>
+                return (
+                  <div key={assessment.id} className={`assessment-item ${isCompleted ? 'completed' : ''}`}>
+                    <div className="assessment-info">
+                      <span className="assessment-icon">📝</span>
+                      <div>
+                        <h3>{assessment.title}</h3>
+                        <span className="assessment-meta">
+                          {assessment.questions.length} Questions • {assessment.duration} min
+                        </span>
+                      </div>
+                    </div>
+                    <div className="assessment-action">
+                      {isCompleted && assessmentScore && (
+                        <span className="score-badge">Score: {assessmentScore.score}%</span>
+                      )}
+                      <Link 
+                        to={`/assessment/${assessment.id}`}
+                        className={`assessment-button ${!isCompleted ? 'primary' : 'secondary'}`}
+                      >
+                        {isCompleted ? 'Retake' : 'Take Quiz'}
+                      </Link>
                     </div>
                   </div>
-                  <div className="assessment-action">
-                    {isCompleted && assessmentScore && (
-                      <span className="score-badge">Score: {assessmentScore.score}%</span>
-                    )}
-                    <Link 
-                      to={`/assessment/${assessment.id}`}
-                      className={`assessment-button ${!isCompleted ? 'primary' : 'secondary'}`}
-                    >
-                      {isCompleted ? 'Retake' : 'Take Quiz'}
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
         )}
 
         {/* Projects Section - Only for static courses */}
         {!generatedCourse && (
-        <div className="content-section">
-          <h2>Projects</h2>
-          <div className="projects-list">
-            {course?.projects.map(project => {
+          <div className="content-section">
+            <h2>Projects</h2>
+            <div className="projects-list">
+              {course?.projects.map(project => {
               const isCompleted = progress.completedProjects.includes(project.id);
 
               return (
@@ -254,7 +254,7 @@ const CourseDetail: React.FC = () => {
               );
             })}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
