@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { learningPath } from '../data/curriculum';
 import { getUserProgress, setCurrentLesson } from '../services/progress';
-import { getGeneratedCourse, type GeneratedCourse } from '../services/courseGenerator';
+import { type GeneratedCourse } from '../services/courseGenerator';
 import './CourseDetail.css';
 
 const CourseDetail: React.FC = () => {
@@ -22,7 +22,8 @@ const CourseDetail: React.FC = () => {
   // Check if this is an AI-generated course
   useEffect(() => {
     if (courseId?.startsWith('ai-course-')) {
-      const course = getGeneratedCourse(courseId);
+      const courses = JSON.parse(localStorage.getItem('ai_generated_courses') || '[]');
+      const course = courses.find((c: GeneratedCourse) => c.id === courseId);
       if (course) {
         setGeneratedCourse(course);
       }
@@ -30,14 +31,14 @@ const CourseDetail: React.FC = () => {
   }, [courseId]);
 
   // Find the course from static curriculum
-  let course = null;
+  let staticCourse = null;
   let phase = null;
   
   if (!generatedCourse) {
     for (const p of learningPath.phases) {
       const foundCourse = p.courses.find(c => c.id === courseId);
       if (foundCourse) {
-        course = foundCourse;
+        staticCourse = foundCourse;
         phase = p;
         break;
       }
@@ -45,7 +46,7 @@ const CourseDetail: React.FC = () => {
   }
 
   // If neither found, show not found
-  if (!course && !generatedCourse) {
+  if (!staticCourse && !generatedCourse) {
     return (
       <div className="course-not-found">
         <h2>Course not found</h2>
@@ -63,10 +64,10 @@ const CourseDetail: React.FC = () => {
         duration: l.duration,
         order: l.order
       }))
-    : course!.lessons;
+    : staticCourse.lessons;
 
-  const courseTitle = generatedCourse?.title || course?.title;
-  const courseDescription = generatedCourse?.description || course?.description;
+  const courseTitle = generatedCourse?.title || staticCourse?.title;
+  const courseDescription = generatedCourse?.description || staticCourse?.description;
 
   const getLessonProgress = (lessonId: string) => {
     return progress.completedLessons.includes(lessonId);
@@ -90,12 +91,11 @@ const CourseDetail: React.FC = () => {
 
   return (
     <div className="course-detail">
-      {/* Course Header */}
       <div className="course-header">
         <Link to="/courses" className="back-link">← Back to Courses</Link>
         
         <div className="course-info">
-          <span className="course-icon">{generatedCourse ? '🧠' : course?.icon}</span>
+          <span className="course-icon">{generatedCourse ? '🧠' : staticCourse?.icon}</span>
           <div className="course-title-section">
             {generatedCourse ? (
               <span className="phase-label">AI Generated</span>
@@ -121,9 +121,7 @@ const CourseDetail: React.FC = () => {
         </div>
       </div>
 
-      {/* Course Content */}
       <div className="course-content">
-        {/* Lessons Section */}
         <div className="content-section">
           <h2>Lessons</h2>
           <div className="lessons-list">
@@ -170,12 +168,6 @@ const CourseDetail: React.FC = () => {
                   {isExpanded && (
                     <div className="lesson-details">
                       <p>{lesson.content.substring(0, 300)}...</p>
-                      {!generatedCourse && 'codeExamples' in lesson && (
-                        <div className="lesson-content-preview">
-                          <span>📚 {(lesson as any).codeExamples?.length || 0} Code Examples</span>
-                          <span>✏️ {(lesson as any).practiceProblems?.length || 0} Practice Problems</span>
-                        </div>
-                      )}
                     </div>
                   )}
                 </div>
@@ -185,11 +177,11 @@ const CourseDetail: React.FC = () => {
         </div>
 
         {/* Assessments Section - Only for static courses */}
-        {!generatedCourse && (
+        {staticCourse && staticCourse.assessments && (
           <div className="content-section">
             <h2>Assessments</h2>
             <div className="assessments-list">
-              {course?.assessments.map(assessment => {
+              {staticCourse.assessments.map(assessment => {
                 const isCompleted = progress.completedAssessments.includes(assessment.id);
                 const assessmentScore = progress.assessmentScores.find(s => s.assessmentId === assessment.id);
 
@@ -223,36 +215,37 @@ const CourseDetail: React.FC = () => {
         )}
 
         {/* Projects Section - Only for static courses */}
-        {!generatedCourse && (
+        {staticCourse && staticCourse.projects && (
           <div className="content-section">
             <h2>Projects</h2>
             <div className="projects-list">
-              {course?.projects.map(project => {
-              const isCompleted = progress.completedProjects.includes(project.id);
+              {staticCourse.projects.map(project => {
+                const isCompleted = progress.completedProjects.includes(project.id);
 
-              return (
-                <div key={project.id} className={`project-item ${isCompleted ? 'completed' : ''}`}>
-                  <div className="project-info">
-                    <span className="project-icon">💻</span>
-                    <div>
-                      <h3>{project.title}</h3>
-                      <p>{project.description}</p>
-                      <span className="project-meta">
-                        ⏱ {project.estimatedHours} hours
-                      </span>
+                return (
+                  <div key={project.id} className={`project-item ${isCompleted ? 'completed' : ''}`}>
+                    <div className="project-info">
+                      <span className="project-icon">💻</span>
+                      <div>
+                        <h3>{project.title}</h3>
+                        <p>{project.description}</p>
+                        <span className="project-meta">
+                          ⏱ {project.estimatedHours} hours
+                        </span>
+                      </div>
+                    </div>
+                    <div className="project-action">
+                      <Link 
+                        to={`/project/${project.id}`}
+                        className={`project-button ${!isCompleted ? 'primary' : 'secondary'}`}
+                      >
+                        {isCompleted ? 'View Project' : 'Start Project'}
+                      </Link>
                     </div>
                   </div>
-                  <div className="project-action">
-                    <Link 
-                      to={`/project/${project.id}`}
-                      className={`project-button ${!isCompleted ? 'primary' : 'secondary'}`}
-                    >
-                      {isCompleted ? 'View Project' : 'Start Project'}
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         )}
       </div>
