@@ -79,7 +79,7 @@ const Dashboard: React.FC = () => {
             <h3>{currentCourse.title}</h3>
             <p>{currentCourse.description}</p>
             <div className="continue-meta">
-              <span>📖 {currentCourse.lessons.length} Lessons</span>
+              <span>📖 {currentCourse.lessons?.length || 0} Lessons</span>
               <span>⏱ {currentCourse.estimatedHours}h</span>
             </div>
             <button className="continue-button">Continue →</button>

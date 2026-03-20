@@ -55,8 +55,8 @@ const Projects: React.FC = () => {
               <p className="project-description">{project.description}</p>
               
               <div className="project-meta">
-                <span>🎯 {project.objectives.length} Objectives</span>
-                <span>💡 {project.hints.length} Hints</span>
+                <span>🎯 {project.objectives?.length || 0} Objectives</span>
+                <span>💡 {project.hints?.length || 0} Hints</span>
                 <span>⏱ {project.estimatedHours}h</span>
               </div>
               

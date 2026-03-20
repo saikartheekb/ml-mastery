@@ -92,7 +92,7 @@ const CourseGenerator: React.FC = () => {
             <p>{selectedTopic.description}</p>
             <div className="selected-topic-meta">
               <span>⏱ {selectedTopic.estimatedHours} hours</span>
-              {selectedTopic.prerequisites.length > 0 && (
+              {selectedTopic.prerequisites && selectedTopic.prerequisites.length > 0 && (
                 <span>📋 Prerequisites: {selectedTopic.prerequisites.join(', ')}</span>
               )}
             </div>

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
+import ErrorBoundary from './components/ErrorBoundary';
 import Dashboard from './pages/Dashboard';
 import Courses from './pages/Courses';
 import CourseDetail from './pages/CourseDetail';
@@ -13,8 +14,9 @@ import CourseGenerator from './pages/CourseGenerator';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="courses" element={<Courses />} />
@@ -29,6 +31,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 

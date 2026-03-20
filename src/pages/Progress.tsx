@@ -23,7 +23,7 @@ const Progress: React.FC = () => {
     const phase = learningPath.phases.find(p => p.number === phaseNum);
     if (!phase) return 0;
     
-    const totalLessons = phase.courses.reduce((sum, c) => sum + c.lessons.length, 0);
+    const totalLessons = phase.courses.reduce((sum, c) => sum + (c.lessons?.length || 0), 0);
     const completedLessons = progress.completedLessons.filter(l => 
       l.startsWith(`phase${phaseNum}`)
     ).length;
