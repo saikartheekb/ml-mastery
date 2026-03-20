@@ -1,0 +1,292 @@
+/* Progress Page Styles */
+.progress-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 1.75rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  color: #6b7280;
+}
+
+/* Stats Section */
+.stats-section {
+  margin-bottom: 2rem;
+}
+
+.overall-progress-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.progress-circle {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+}
+
+.progress-circle svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.progress-circle .progress-bg {
+  fill: none;
+  stroke: #e5e7eb;
+  stroke-width: 8;
+}
+
+.progress-circle .progress-fill {
+  fill: none;
+  stroke: #3b82f6;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.progress-circle .progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.progress-circle .percentage {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.progress-circle .label {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.overall-stats {
+  flex: 1;
+}
+
+.overall-stats h2 {
+  font-size: 1.25rem;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  color: #6b7280;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Section */
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  font-size: 1.25rem;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+/* Phases Progress */
+.phases-progress {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.phase-progress-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.phase-progress-card.locked {
+  opacity: 0.6;
+}
+
+.phase-progress-card.current {
+  border: 2px solid #3b82f6;
+}
+
+.phase-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.phase-progress-header .phase-number {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+.phase-progress-card h3 {
+  font-size: 1rem;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.phase-progress-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.phase-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.phase-progress-text {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.phase-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Scores Table */
+.scores-table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 1rem 1.5rem;
+  background: #f9fafb;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-row .score-value {
+  font-weight: 600;
+  color: #10b981;
+}
+
+/* Achievements Grid */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.achievement-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.achievement-card.locked {
+  opacity: 0.6;
+}
+
+.achievement-card.earned {
+  border: 2px solid #fbbf24;
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.achievement-details h3 {
+  font-size: 1rem;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.achievement-details p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.earned-date {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.achievements-summary {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .overall-progress-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .stat-row {
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+}
