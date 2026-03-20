@@ -1,9 +1,18 @@
+import { useState, useEffect } from 'react';
 import { useLocation, Outlet } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './Layout.css';
 
 const Layout = () => {
   const location = useLocation();
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('darkMode') === 'true';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+    localStorage.setItem('darkMode', String(darkMode));
+  }, [darkMode]);
 
   return (
     <div className="layout">
@@ -48,6 +57,13 @@ const Layout = () => {
           </div>
         </div>
         <div className="nav-right">
+          <button 
+            className="theme-toggle"
+            onClick={() => setDarkMode(!darkMode)}
+            title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {darkMode ? '☀️' : '🌙'}
+          </button>
           <Link to="/settings" className="nav-button nav-button-secondary">
             ⚙️ Settings
           </Link>
