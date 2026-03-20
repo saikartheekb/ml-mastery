@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { learningPath } from '../data/curriculum';
 import { getUserProgress, setCurrentLesson } from '../services/progress';
-import { getGeneratedCourse, GeneratedCourse } from '../services/courseGenerator';
+import { getGeneratedCourse, type GeneratedCourse } from '../services/courseGenerator';
 import './CourseDetail.css';
 
 const CourseDetail: React.FC = () => {
@@ -170,10 +170,12 @@ const CourseDetail: React.FC = () => {
                   {isExpanded && (
                     <div className="lesson-details">
                       <p>{lesson.content.substring(0, 300)}...</p>
-                      <div className="lesson-content-preview">
-                        <span>📚 {lesson.codeExamples.length} Code Examples</span>
-                        <span>✏️ {lesson.practiceProblems.length} Practice Problems</span>
-                      </div>
+                      {!generatedCourse && 'codeExamples' in lesson && (
+                        <div className="lesson-content-preview">
+                          <span>📚 {(lesson as any).codeExamples?.length || 0} Code Examples</span>
+                          <span>✏️ {(lesson as any).practiceProblems?.length || 0} Practice Problems</span>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -182,12 +184,13 @@ const CourseDetail: React.FC = () => {
           </div>
         </div>
 
-        {/* Assessments Section */}
+        {/* Assessments Section - Only for static courses */}
+        {!generatedCourse && (
         <div className="content-section">
           <h2>Assessments</h2>
           <div className="assessments-list">
-            {course.assessments.map(assessment => {
-              const isCompleted = getAssessmentProgress(assessment.id);
+            {course?.assessments.map(assessment => {
+              const isCompleted = progress.completedAssessments.includes(assessment.id);
               const assessmentScore = progress.assessmentScores.find(s => s.assessmentId === assessment.id);
 
               return (
@@ -217,13 +220,15 @@ const CourseDetail: React.FC = () => {
             })}
           </div>
         </div>
+        )}
 
-        {/* Projects Section */}
+        {/* Projects Section - Only for static courses */}
+        {!generatedCourse && (
         <div className="content-section">
           <h2>Projects</h2>
           <div className="projects-list">
-            {course.projects.map(project => {
-              const isCompleted = getProjectProgress(project.id);
+            {course?.projects.map(project => {
+              const isCompleted = progress.completedProjects.includes(project.id);
 
               return (
                 <div key={project.id} className={`project-item ${isCompleted ? 'completed' : ''}`}>

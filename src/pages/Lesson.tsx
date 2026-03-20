@@ -9,7 +9,6 @@ import { getUserProgress, completeLesson, addTimeSpent } from '../services/progr
 import { generateExplanation } from '../services/ai';
 import type { AIProvider } from '../services/ai';
 import { runPythonCode, loadPyodideEngine } from '../services/python';
-import { getGeneratedCourse } from '../services/courseGenerator';
 import './Lesson.css';
 
 const Lesson: React.FC = () => {
@@ -38,13 +37,11 @@ const Lesson: React.FC = () => {
   const [pythonReady, setPythonReady] = useState(false);
 
   // Find the lesson from static curriculum or AI-generated courses
-  let lesson = null;
+  let lesson: any = null;
   let course = null;
   let phase = null;
   let lessonIndex = -1;
   let generatedCourse = null;
-
-  // First check if it's an AI-generated course lesson
   if (lessonId?.startsWith('lesson-') && lessonId.includes('-')) {
     // Find which generated course this lesson belongs to
     const allGeneratedCourses = JSON.parse(localStorage.getItem('ai_generated_courses') || '[]');
@@ -279,11 +276,11 @@ const Lesson: React.FC = () => {
             </div>
           )}
 
-          {/* Code Examples */}
-          {lesson.codeExamples.length > 0 && (
+          {/* Code Examples - Only for static curriculum */}
+          {lesson && 'codeExamples' in lesson && (lesson as any).codeExamples?.length > 0 && (
             <div className="examples-section">
               <h2>Code Examples</h2>
-              {lesson.codeExamples.map((example) => (
+              {(lesson as any).codeExamples.map((example: any) => (
                 <div key={example.id} className="code-example">
                   <h3>{example.title}</h3>
                   <pre className="code-block">
@@ -307,11 +304,11 @@ const Lesson: React.FC = () => {
             </div>
           )}
 
-          {/* Practice Problems */}
-          {lesson.practiceProblems.length > 0 && (
+          {/* Practice Problems - Only for static curriculum */}
+          {lesson && 'practiceProblems' in lesson && (lesson as any).practiceProblems?.length > 0 && (
             <div className="practice-section">
               <h2>Practice Problems</h2>
-              {lesson.practiceProblems.map((problem, index) => (
+              {(lesson as any).practiceProblems.map((problem: any, index: number) => (
                 <div key={problem.id} className="practice-problem">
                   <h3>{index + 1}. {problem.title}</h3>
                   <p>{problem.description}</p>
