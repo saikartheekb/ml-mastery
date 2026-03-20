@@ -196,3 +196,53 @@
   padding: 3rem;
   color: #6b7280;
 }
+
+/* Generate CTA Card */
+.generate-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  text-decoration: none;
+  color: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.generate-cta-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+}
+
+.generate-cta-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.generate-cta-icon {
+  font-size: 2.5rem;
+}
+
+.generate-cta-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.25rem;
+}
+
+.generate-cta-content p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.generate-cta-button {
+  background: white;
+  color: #2563eb;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}

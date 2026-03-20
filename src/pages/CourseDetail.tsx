@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { learningPath } from '../data/curriculum';
 import { getUserProgress, setCurrentLesson } from '../services/progress';
+import { getGeneratedCourse, GeneratedCourse } from '../services/courseGenerator';
 import './CourseDetail.css';
 
 const CourseDetail: React.FC = () => {
@@ -9,6 +10,7 @@ const CourseDetail: React.FC = () => {
   const navigate = useNavigate();
   const [progress, setProgress] = useState(getUserProgress());
   const [expandedLesson, setExpandedLesson] = useState<string | null>(null);
+  const [generatedCourse, setGeneratedCourse] = useState<GeneratedCourse | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,20 +19,33 @@ const CourseDetail: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Find the course
+  // Check if this is an AI-generated course
+  useEffect(() => {
+    if (courseId?.startsWith('ai-course-')) {
+      const course = getGeneratedCourse(courseId);
+      if (course) {
+        setGeneratedCourse(course);
+      }
+    }
+  }, [courseId]);
+
+  // Find the course from static curriculum
   let course = null;
   let phase = null;
   
-  for (const p of learningPath.phases) {
-    const foundCourse = p.courses.find(c => c.id === courseId);
-    if (foundCourse) {
-      course = foundCourse;
-      phase = p;
-      break;
+  if (!generatedCourse) {
+    for (const p of learningPath.phases) {
+      const foundCourse = p.courses.find(c => c.id === courseId);
+      if (foundCourse) {
+        course = foundCourse;
+        phase = p;
+        break;
+      }
     }
   }
 
-  if (!course) {
+  // If neither found, show not found
+  if (!course && !generatedCourse) {
     return (
       <div className="course-not-found">
         <h2>Course not found</h2>
@@ -39,34 +54,37 @@ const CourseDetail: React.FC = () => {
     );
   }
 
+  // Get lessons from either source
+  const lessons = generatedCourse 
+    ? generatedCourse.lessons.map(l => ({
+        id: l.id,
+        title: l.title,
+        content: l.content,
+        duration: l.duration,
+        order: l.order
+      }))
+    : course!.lessons;
+
+  const courseTitle = generatedCourse?.title || course?.title;
+  const courseDescription = generatedCourse?.description || course?.description;
+
   const getLessonProgress = (lessonId: string) => {
     return progress.completedLessons.includes(lessonId);
   };
 
-  const getAssessmentProgress = (assessmentId: string) => {
-    return progress.completedAssessments.includes(assessmentId);
-  };
-
-  const getProjectProgress = (projectId: string) => {
-    return progress.completedProjects.includes(projectId);
-  };
-
-  const completedLessons = course.lessons.filter(l => getLessonProgress(l.id)).length;
-  const completedAssessments = course.assessments.filter(a => getAssessmentProgress(a.id)).length;
-  const completedProjects = course.projects.filter(p => getProjectProgress(p.id)).length;
-
-  const totalItems = course.lessons.length + course.assessments.length + course.projects.length;
-  const completedItems = completedLessons + completedAssessments + completedProjects;
-  const courseProgress = Math.round((completedItems / totalItems) * 100);
+  // For AI-generated courses, just calculate based on lessons
+  const totalItems = lessons.length;
+  const completedItems = lessons.filter(l => getLessonProgress(l.id)).length;
+  const courseProgress = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
 
   const handleStartLesson = (lessonId: string) => {
-    setCurrentLesson(course!.id, lessonId);
+    setCurrentLesson(courseId!, lessonId);
     navigate(`/lesson/${lessonId}`);
   };
 
   const isLessonUnlocked = (index: number) => {
     if (index === 0) return true;
-    const prevLesson = course!.lessons[index - 1];
+    const prevLesson = lessons[index - 1];
     return getLessonProgress(prevLesson.id);
   };
 
@@ -77,11 +95,15 @@ const CourseDetail: React.FC = () => {
         <Link to="/courses" className="back-link">← Back to Courses</Link>
         
         <div className="course-info">
-          <span className="course-icon">{course.icon}</span>
+          <span className="course-icon">{generatedCourse ? '🧠' : course?.icon}</span>
           <div className="course-title-section">
-            <span className="phase-label">Phase {phase?.number}</span>
-            <h1>{course.title}</h1>
-            <p>{course.description}</p>
+            {generatedCourse ? (
+              <span className="phase-label">AI Generated</span>
+            ) : (
+              <span className="phase-label">Phase {phase?.number}</span>
+            )}
+            <h1>{courseTitle}</h1>
+            <p>{courseDescription}</p>
           </div>
         </div>
 
@@ -94,9 +116,7 @@ const CourseDetail: React.FC = () => {
             <div className="progress-fill" style={{ width: `${courseProgress}%` }} />
           </div>
           <div className="progress-stats">
-            <span>📖 {completedLessons}/{course.lessons.length} Lessons</span>
-            <span>📝 {completedAssessments}/{course.assessments.length} Quizzes</span>
-            <span>💻 {completedProjects}/{course.projects.length} Projects</span>
+            <span>📖 {completedItems}/{totalItems} Lessons</span>
           </div>
         </div>
       </div>
@@ -107,7 +127,7 @@ const CourseDetail: React.FC = () => {
         <div className="content-section">
           <h2>Lessons</h2>
           <div className="lessons-list">
-            {course.lessons.map((lesson, index) => {
+            {lessons.map((lesson, index) => {
               const isCompleted = getLessonProgress(lesson.id);
               const isUnlocked = isLessonUnlocked(index);
               const isExpanded = expandedLesson === lesson.id;

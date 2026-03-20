@@ -28,16 +28,16 @@ const Layout = () => {
               Courses
             </Link>
             <Link 
+              to="/generate" 
+              className={`nav-link ${location.pathname === '/generate' ? 'active' : ''}`}
+            >
+              🎨 Generate AI Course
+            </Link>
+            <Link 
               to="/progress" 
               className={`nav-link ${location.pathname === '/progress' ? 'active' : ''}`}
             >
               Progress
-            </Link>
-            <Link 
-              to="/projects" 
-              className={`nav-link ${location.pathname === '/projects' ? 'active' : ''}`}
-            >
-              Projects
             </Link>
             <Link 
               to="/settings" 

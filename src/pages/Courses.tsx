@@ -2,16 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { learningPath } from '../data/curriculum';
 import { getUserProgress } from '../services/progress';
+import { getGeneratedCourses } from '../services/courseGenerator';
 import './Courses.css';
 
 const Courses: React.FC = () => {
   const [searchParams] = useSearchParams();
   const phaseFilter = searchParams.get('phase');
   const [progress, setProgress] = useState(getUserProgress());
+  const [generatedCourses, setGeneratedCourses] = useState(getGeneratedCourses());
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress(getUserProgress());
+      setGeneratedCourses(getGeneratedCourses());
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -104,6 +107,87 @@ const Courses: React.FC = () => {
           <p>No courses found for this phase.</p>
         </div>
       )}
+
+      {/* AI Generated Courses Section */}
+      {generatedCourses.length > 0 && (
+        <div className="phase-section">
+          <div className="phase-header">
+            <div className="phase-badge" style={{ background: '#7c3aed' }}>🧠 AI Generated</div>
+            <h2>Your Custom Courses</h2>
+            <p>Personalized courses created just for you</p>
+          </div>
+
+          <div className="courses-grid">
+            {generatedCourses.map(course => {
+              const completedLessons = progress.completedLessons.filter(l => l.startsWith(course.id.split('-')[0])).length;
+              const courseProgress = Math.round((completedLessons / course.lessons.length) * 100);
+              const isStarted = completedLessons > 0;
+              
+              return (
+                <Link 
+                  key={course.id} 
+                  to={`/course/${course.id}`}
+                  className={`course-card ${isStarted ? 'started' : ''}`}
+                >
+                  <div className="course-header">
+                    <span className="course-icon">🧠</span>
+                    <div className="course-progress">
+                      <div className="progress-ring">
+                        <svg viewBox="0 0 36 36">
+                          <path
+                            className="progress-bg"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          />
+                          <path
+                            className="progress-fill"
+                            strokeDasharray={`${courseProgress}, 100`}
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          />
+                        </svg>
+                        <span className="progress-text">{courseProgress}%</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <h3>{course.title}</h3>
+                  <p className="course-description">{course.description}</p>
+                  
+                  <div className="course-meta">
+                    <span>📖 {course.lessons.length} Lessons</span>
+                  </div>
+                  
+                  <div className="course-footer">
+                    <span className="course-time">🧠 AI Generated</span>
+                    <button className="course-button">
+                      {courseProgress > 0 ? 'Continue' : 'Start'} →
+                    </button>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Generate New Course CTA */}
+      <div className="phase-section">
+        <div className="phase-header">
+          <div className="phase-badge" style={{ background: '#2563eb' }}>✨ Create New</div>
+          <h2>Generate Your Own Course</h2>
+          <p>Want to learn something specific? Let AI create a personalized course for you</p>
+        </div>
+        
+        <Link to="/generate" className="generate-cta-card">
+          <div className="generate-cta-content">
+            <span className="generate-cta-icon">🎨</span>
+            <div>
+              <h3>AI Course Generator</h3>
+              <p>Enter any topic and get a complete course with lessons, examples, and quizzes</p>
+            </div>
+          </div>
+          <span className="generate-cta-button">Generate Course →</span>
+        </Link>
+      </div>
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { getUserProgress, completeLesson, addTimeSpent } from '../services/progr
 import { generateExplanation } from '../services/ai';
 import type { AIProvider } from '../services/ai';
 import { runPythonCode, loadPyodideEngine } from '../services/python';
+import { getGeneratedCourse } from '../services/courseGenerator';
 import './Lesson.css';
 
 const Lesson: React.FC = () => {
@@ -36,21 +37,39 @@ const Lesson: React.FC = () => {
   const [pythonLoading, setPythonLoading] = useState(false);
   const [pythonReady, setPythonReady] = useState(false);
 
-  // Find the lesson
+  // Find the lesson from static curriculum or AI-generated courses
   let lesson = null;
   let course = null;
   let phase = null;
   let lessonIndex = -1;
+  let generatedCourse = null;
 
-  for (const p of learningPath.phases) {
-    for (const c of p.courses) {
-      const foundLesson = c.lessons.find(l => l.id === lessonId);
+  // First check if it's an AI-generated course lesson
+  if (lessonId?.startsWith('lesson-') && lessonId.includes('-')) {
+    // Find which generated course this lesson belongs to
+    const allGeneratedCourses = JSON.parse(localStorage.getItem('ai_generated_courses') || '[]');
+    for (const genCourse of allGeneratedCourses) {
+      const foundLesson = genCourse.lessons.find((l: any) => l.id === lessonId);
       if (foundLesson) {
+        generatedCourse = genCourse;
         lesson = foundLesson;
-        course = c;
-        phase = p;
-        lessonIndex = c.lessons.findIndex(l => l.id === lessonId);
         break;
+      }
+    }
+  }
+
+  // If not found in generated courses, check static curriculum
+  if (!lesson) {
+    for (const p of learningPath.phases) {
+      for (const c of p.courses) {
+        const foundLesson = c.lessons.find(l => l.id === lessonId);
+        if (foundLesson) {
+          lesson = foundLesson;
+          course = c;
+          phase = p;
+          lessonIndex = c.lessons.findIndex(l => l.id === lessonId);
+          break;
+        }
       }
     }
   }
@@ -67,7 +86,10 @@ const Lesson: React.FC = () => {
 
   // Auto-generate AI explanation on lesson load
   useEffect(() => {
-    if (!lesson || !course) return;
+    if (!lesson) return;
+    
+    // Get topic from either source
+    const topic = generatedCourse?.title || course?.title || 'Machine Learning';
     
     const generateAutoExplanation = async () => {
       const savedSettings = localStorage.getItem('ai_settings');
@@ -89,7 +111,7 @@ const Lesson: React.FC = () => {
         const response = await generateExplanation(
           { provider: settings.provider as AIProvider, apiKey },
           {
-            topic: course.title || 'Machine Learning',
+            topic: topic,
             concept: lesson.title,
             context: lesson.content
           }

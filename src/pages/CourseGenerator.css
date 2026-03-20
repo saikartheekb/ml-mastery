@@ -1,0 +1,236 @@
+/* Course Generator Styles - Roadmap.sh AI Tutor inspired */
+
+.generator-page {
+  max-width: 100%;
+  margin: 0;
+}
+
+.generator-header {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.header-content h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.header-content p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.generator-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.generator-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.input-section {
+  margin-bottom: 1.5rem;
+}
+
+.input-section label {
+  display: block;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.input-section input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.input-section input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.input-section input:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.lessons-section {
+  margin-bottom: 1.5rem;
+}
+
+.lessons-section label {
+  display: block;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.lessons-section select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.error-message {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.generate-button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.generate-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.generate-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.suggested-topics {
+  margin-bottom: 1.5rem;
+}
+
+.suggested-topics h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.topic-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.topic-chip {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.topic-chip:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.topic-chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.info-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.info-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+.info-card ol,
+.info-card ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.info-card li {
+  margin-bottom: 0.5rem;
+}
+
+.info-card p {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.settings-prompt {
+  text-align: center;
+  padding: 1rem;
+  color: #6b7280;
+}
+
+.settings-prompt a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.settings-prompt a:hover {
+  text-decoration: underline;
+}

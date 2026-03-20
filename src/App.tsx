@@ -9,6 +9,7 @@ import Progress from './pages/Progress';
 import Projects from './pages/Projects';
 import Project from './pages/Project';
 import Settings from './pages/Settings';
+import CourseGenerator from './pages/CourseGenerator';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="courses" element={<Courses />} />
+          <Route path="generate" element={<CourseGenerator />} />
           <Route path="course/:courseId" element={<CourseDetail />} />
           <Route path="lesson/:lessonId" element={<Lesson />} />
           <Route path="assessment/:assessmentId" element={<Assessment />} />
