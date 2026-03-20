@@ -1,4 +1,4 @@
-import { JSONRepair } from 'jsonrepair';
+import { jsonrepair } from 'jsonrepair';
 
 // AI Service - Uses user's API key to generate explanations
 
@@ -207,7 +207,7 @@ Each question should have 4 options with one correct answer.`;
     } catch {
       // Try to repair malformed JSON
       try {
-        const repaired = JSONRepair(response);
+        const repaired = jsonrepair(response);
         return JSON.parse(repaired);
       } catch {
         // Return as text if not valid JSON

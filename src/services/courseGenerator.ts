@@ -1,6 +1,6 @@
 // AI Course Generator - Generates personalized courses on-demand (like roadmap.sh AI Tutor)
 
-import { JSONRepair } from 'jsonrepair';
+import { jsonrepair } from 'jsonrepair';
 import type { AIProvider } from './ai';
 
 export interface GeneratedCourse {
@@ -67,7 +67,7 @@ Respond ONLY with valid JSON, no other text.`;
     courseData = JSON.parse(response);
   } catch (e) {
     // Try to repair malformed JSON
-    const repaired = JSONRepair(response);
+    const repaired = jsonrepair(response);
     courseData = JSON.parse(repaired);
   }
 
@@ -125,7 +125,7 @@ Make questions practical and test understanding, not just memorization.`;
   try {
     return JSON.parse(response);
   } catch (err) {
-    const repaired = JSONRepair(response);
+    const repaired = jsonrepair(response);
     return JSON.parse(repaired);
   }
 }
@@ -167,7 +167,7 @@ Include Python code problems where possible.`;
   try {
     return JSON.parse(response);
   } catch (err) {
-    const repaired = JSONRepair(response);
+    const repaired = jsonrepair(response);
     return JSON.parse(repaired);
   }
 }
