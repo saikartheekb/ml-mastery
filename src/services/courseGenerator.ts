@@ -222,12 +222,14 @@ async function generateWithGemini(apiKey: string, prompt: string): Promise<strin
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      systemInstruction: {
+        parts: [{
+          text: 'You are an expert educator who creates comprehensive, practical courses. Generate detailed lesson content with clear explanations, examples, and code snippets in JSON format.'
+        }]
+      },
       contents: [
         {
           parts: [
-            {
-              text: 'You are an expert educator who creates comprehensive, practical courses. Generate detailed lesson content with clear explanations, examples, and code snippets in JSON format.'
-            },
             {
               text: prompt
             }
@@ -242,7 +244,8 @@ async function generateWithGemini(apiKey: string, prompt: string): Promise<strin
   });
 
   if (!response.ok) {
-    throw new Error(`Gemini API error: ${response.status}`);
+    const errorText = await response.text();
+    throw new Error(`Gemini API error: ${response.status} - ${errorText}`);
   }
 
   const data = await response.json();

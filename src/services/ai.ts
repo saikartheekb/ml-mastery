@@ -83,26 +83,24 @@ async function generateWithAnthropic(apiKey: string, prompt: string): Promise<st
   return data.content[0]?.text || 'No response generated';
 }
 
-// Generate explanation using Google Gemini
+// Generate explanation using Google Gemini - Using Gemini 2.0 Flash (latest free tier)
 async function generateWithGemini(apiKey: string, prompt: string): Promise<string> {
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      systemInstruction: {
+        parts: [{
+          text: 'You are an expert ML/AI tutor. Explain concepts clearly with examples. Use markdown formatting for better readability.'
+        }]
+      },
       contents: [
         {
           parts: [
             {
               text: prompt
-            }
-          ]
-        },
-        {
-          parts: [
-            {
-              text: 'You are an expert ML/AI tutor. Explain concepts clearly with examples. Use markdown formatting for better readability.'
             }
           ]
         }
@@ -115,7 +113,8 @@ async function generateWithGemini(apiKey: string, prompt: string): Promise<strin
   });
 
   if (!response.ok) {
-    throw new Error(`Gemini API error: ${response.status}`);
+    const error = await response.text();
+    throw new Error(`Gemini API error: ${response.status} - ${error}`);
   }
 
   const data = await response.json();
