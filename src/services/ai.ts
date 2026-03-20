@@ -1,3 +1,5 @@
+import { JSONRepair } from 'jsonrepair';
+
 // AI Service - Uses user's API key to generate explanations
 
 export type AIProvider = 'openai' | 'anthropic' | 'gemini';
@@ -203,8 +205,14 @@ Each question should have 4 options with one correct answer.`;
       const questions = JSON.parse(response);
       return questions;
     } catch {
-      // Return as text if not valid JSON
-      return [response];
+      // Try to repair malformed JSON
+      try {
+        const repaired = JSONRepair(response);
+        return JSON.parse(repaired);
+      } catch {
+        // Return as text if not valid JSON
+        return [response];
+      }
     }
   } catch (error) {
     console.error('Quiz generation error:', error);

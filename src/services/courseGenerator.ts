@@ -1,5 +1,6 @@
 // AI Course Generator - Generates personalized courses on-demand (like roadmap.sh AI Tutor)
 
+import { JSONRepair } from 'jsonrepair';
 import type { AIProvider } from './ai';
 
 export interface GeneratedCourse {
@@ -60,8 +61,15 @@ Respond ONLY with valid JSON, no other text.`;
     response = await generateWithGemini(config.apiKey, prompt);
   }
 
-  // Parse the JSON response
-  const courseData = JSON.parse(response);
+  // Parse the JSON response - repair if needed
+  let courseData;
+  try {
+    courseData = JSON.parse(response);
+  } catch (e) {
+    // Try to repair malformed JSON
+    const repaired = JSONRepair(response);
+    courseData = JSON.parse(repaired);
+  }
 
   // Create the generated course
   const course: GeneratedCourse = {
@@ -114,7 +122,12 @@ Make questions practical and test understanding, not just memorization.`;
     response = await generateWithGemini(config.apiKey, prompt);
   }
 
-  return JSON.parse(response);
+  try {
+    return JSON.parse(response);
+  } catch (err) {
+    const repaired = JSONRepair(response);
+    return JSON.parse(repaired);
+  }
 }
 
 // Generate practice problems for a lesson
@@ -151,7 +164,12 @@ Include Python code problems where possible.`;
     response = await generateWithGemini(config.apiKey, prompt);
   }
 
-  return JSON.parse(response);
+  try {
+    return JSON.parse(response);
+  } catch (err) {
+    const repaired = JSONRepair(response);
+    return JSON.parse(repaired);
+  }
 }
 
 // AI API implementations
