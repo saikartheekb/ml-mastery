@@ -7,6 +7,7 @@ import 'katex/dist/katex.min.css';
 import { learningPath } from '../data/curriculum';
 import { getUserProgress, completeLesson, addTimeSpent } from '../services/progress';
 import { generateExplanation, AIProvider } from '../services/ai';
+import { runPythonCode, loadPyodideEngine, CodeResult } from '../services/python';
 import './Lesson.css';
 
 const Lesson: React.FC = () => {
@@ -22,13 +23,17 @@ const Lesson: React.FC = () => {
   const [aiResponse, setAiResponse] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState('');
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress(getUserProgress());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  
+  // Auto AI explanation state
+  const [autoExplanation, setAutoExplanation] = useState('');
+  const [autoExplanationLoading, setAutoExplanationLoading] = useState(false);
+  
+  // Python Playground state
+  const [pythonCode, setPythonCode] = useState('');
+  const [pythonOutput, setPythonOutput] = useState('');
+  const [pythonError, setPythonError] = useState('');
+  const [pythonLoading, setPythonLoading] = useState(false);
+  const [pythonReady, setPythonReady] = useState(false);
 
   // Find the lesson
   let lesson = null;
@@ -59,6 +64,47 @@ const Lesson: React.FC = () => {
     };
   }, [startTime]);
 
+  // Auto-generate AI explanation on lesson load
+  useEffect(() => {
+    if (!lesson || !course) return;
+    
+    const generateAutoExplanation = async () => {
+      const savedSettings = localStorage.getItem('ai_settings');
+      if (!savedSettings) return;
+      
+      const settings = JSON.parse(savedSettings);
+      const apiKey = settings.provider === 'openai' ? settings.openaiKey : settings.anthropicKey;
+      if (!apiKey) return;
+      
+      setAutoExplanationLoading(true);
+      try {
+        const response = await generateExplanation(
+          { provider: settings.provider as AIProvider, apiKey },
+          {
+            topic: course.title || 'Machine Learning',
+            concept: lesson.title,
+            context: lesson.content
+          }
+        );
+        setAutoExplanation(response.explanation);
+      } catch (err) {
+        console.error('Auto explanation error:', err);
+      }
+      setAutoExplanationLoading(false);
+    };
+    
+    generateAutoExplanation();
+  }, [lesson?.id, course?.id]);
+
+  // Initialize Python playground
+  useEffect(() => {
+    const initPython = async () => {
+      const ready = await loadPyodideEngine();
+      setPythonReady(ready);
+    };
+    initPython();
+  }, []);
+
   if (!lesson) {
     return (
       <div className="lesson-not-found">
@@ -83,13 +129,18 @@ const Lesson: React.FC = () => {
     }
   };
 
-  const runCode = async (_code: string, exampleId: string) => {
+  const runCode = async (code: string, exampleId: string) => {
     setIsRunning(true);
     try {
-      // Simulate code execution - in a real app, this would use Pyodide
-      const output = `# Simulated output for example ${exampleId}:\n`;
-      const mockOutput = output + `Code executed successfully!\n`;
-      setCodeOutputs(prev => ({ ...prev, [exampleId]: mockOutput }));
+      const result = await runPythonCode(code);
+      let output = '';
+      if (result.output) {
+        output = result.output;
+      }
+      if (result.error) {
+        output = `Error:\n${result.error}`;
+      }
+      setCodeOutputs(prev => ({ ...prev, [exampleId]: output || 'Code executed successfully!' }));
     } catch (error) {
       setCodeOutputs(prev => ({ ...prev, [exampleId]: `Error: ${error}` }));
     }
@@ -164,6 +215,32 @@ const Lesson: React.FC = () => {
               <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{lesson.content}</ReactMarkdown>
             </div>
           </div>
+
+          {/* AI Explanation - Auto Generated */}
+          {autoExplanationLoading ? (
+            <div className="ai-explanation-section loading">
+              <div className="loading-spinner">🤔</div>
+              <p>Generating comprehensive explanation with AI...</p>
+            </div>
+          ) : autoExplanation ? (
+            <div className="ai-explanation-section">
+              <h2>🤖 AI-Powered Deep Dive</h2>
+              <p className="ai-explanation-intro">
+                Here's a comprehensive explanation of this concept:
+              </p>
+              <div className="ai-explanation-content">
+                <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                  {autoExplanation}
+                </ReactMarkdown>
+              </div>
+            </div>
+          ) : (
+            <div className="ai-explanation-section">
+              <h2>🤖 AI-Powered Explanations</h2>
+              <p>Configure your AI API key in Settings to get automatic comprehensive explanations!</p>
+              <Link to="/settings" className="settings-link">→ Go to Settings</Link>
+            </div>
+          )}
 
           {/* Code Examples */}
           {lesson.codeExamples.length > 0 && (
@@ -252,6 +329,82 @@ const Lesson: React.FC = () => {
                 <h3>Answer:</h3>
                 <ReactMarkdown>{aiResponse}</ReactMarkdown>
               </div>
+            )}
+          </div>
+
+          {/* Python Playground */}
+          <div className="python-playground-section">
+            <h2>🐍 Python Coding Playground</h2>
+            <p className="playground-description">
+              Write and run Python code directly in your browser. Powered by Pyodide!
+            </p>
+            
+            {!pythonReady ? (
+              <div className="python-loading">
+                <div className="loading-spinner">🐍</div>
+                <p>Loading Python environment...</p>
+              </div>
+            ) : (
+              <>
+                <div className="python-editor">
+                  <textarea
+                    value={pythonCode}
+                    onChange={(e) => setPythonCode(e.target.value)}
+                    placeholder="# Write your Python code here!
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Example: Create a simple array
+arr = np.array([1, 2, 3, 4, 5])
+print('Array:', arr)
+print('Mean:', np.mean(arr))
+"
+                    rows={10}
+                  />
+                </div>
+                
+                <div className="python-actions">
+                  <button 
+                    className="run-python-button"
+                    onClick={async () => {
+                      setPythonLoading(true);
+                      setPythonOutput('');
+                      setPythonError('');
+                      const result = await runPythonCode(pythonCode);
+                      if (result.output) setPythonOutput(result.output);
+                      if (result.error) setPythonError(result.error);
+                      setPythonLoading(false);
+                    }}
+                    disabled={pythonLoading || !pythonCode.trim()}
+                  >
+                    {pythonLoading ? '⏳ Running...' : '▶ Run Code'}
+                  </button>
+                  <button 
+                    className="clear-python-button"
+                    onClick={() => {
+                      setPythonCode('');
+                      setPythonOutput('');
+                      setPythonError('');
+                    }}
+                  >
+                    🗑️ Clear
+                  </button>
+                </div>
+
+                {pythonError && (
+                  <div className="python-output error">
+                    <h4>Error:</h4>
+                    <pre>{pythonError}</pre>
+                  </div>
+                )}
+
+                {pythonOutput && (
+                  <div className="python-output">
+                    <h4>Output:</h4>
+                    <pre>{pythonOutput}</pre>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

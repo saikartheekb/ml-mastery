@@ -482,3 +482,180 @@
   margin: 0;
   line-height: 1.6;
 }
+
+/* AI Auto Explanation Section */
+.ai-explanation-section {
+  background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  color: white;
+}
+
+.ai-explanation-section.loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+.loading-spinner {
+  font-size: 2rem;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+.ai-explanation-section h2 {
+  margin-bottom: 0.5rem;
+}
+
+.ai-explanation-intro {
+  opacity: 0.9;
+  margin-bottom: 1rem;
+}
+
+.ai-explanation-content {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  line-height: 1.7;
+}
+
+.ai-explanation-content p {
+  margin-bottom: 1rem;
+}
+
+.ai-explanation-content code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+
+.ai-explanation-section .settings-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #60a5fa;
+  text-decoration: none;
+}
+
+.ai-explanation-section .settings-link:hover {
+  text-decoration: underline;
+}
+
+/* Python Playground Section */
+.python-playground-section {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  color: #d4d4d4;
+}
+
+.python-playground-section h2 {
+  color: #569cd6;
+  margin-bottom: 0.5rem;
+}
+
+.playground-description {
+  opacity: 0.8;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.python-loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+.python-loading .loading-spinner {
+  font-size: 2rem;
+}
+
+.python-editor textarea {
+  width: 100%;
+  background: #2d2d2d;
+  border: 1px solid #3c3c3c;
+  border-radius: 8px;
+  padding: 1rem;
+  color: #d4d4d4;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.python-editor textarea:focus {
+  outline: none;
+  border-color: #569cd6;
+}
+
+.python-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.run-python-button {
+  padding: 0.75rem 1.5rem;
+  background: #4ec9b0;
+  color: #1e1e1e;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.run-python-button:hover:not(:disabled) {
+  background: #3db892;
+}
+
+.run-python-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.clear-python-button {
+  padding: 0.75rem 1rem;
+  background: #3c3c3c;
+  color: #d4d4d4;
+  border: 1px solid #555;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.clear-python-button:hover {
+  background: #4a4a4a;
+}
+
+.python-output {
+  background: #2d2d2d;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.python-output h4 {
+  color: #4ec9b0;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.python-output pre {
+  margin: 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.python-output.error h4 {
+  color: #f14c4c;
+}
+
+.python-output.error pre {
+  color: #f14c4c;
+}
