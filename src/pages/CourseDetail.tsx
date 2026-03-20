@@ -8,11 +8,14 @@ import './CourseDetail.css';
 const CourseDetail: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
-  const [progress, setProgress] = useState(getUserProgress());
+  const [progress, setProgress] = useState(getUserProgress);
   const [expandedLesson, setExpandedLesson] = useState<string | null>(null);
   const [generatedCourse, setGeneratedCourse] = useState<GeneratedCourse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Refresh progress periodically
     const interval = setInterval(() => {
       setProgress(getUserProgress());
     }, 1000);
@@ -21,14 +24,42 @@ const CourseDetail: React.FC = () => {
 
   // Check if this is an AI-generated course
   useEffect(() => {
-    if (courseId?.startsWith('ai-course-')) {
-      const courses = JSON.parse(localStorage.getItem('ai_generated_courses') || '[]');
-      const course = courses.find((c: GeneratedCourse) => c.id === courseId);
-      if (course) {
-        setGeneratedCourse(course);
+    setLoading(true);
+    setError(null);
+    
+    try {
+      if (courseId?.startsWith('ai-course-')) {
+        const courses = JSON.parse(localStorage.getItem('ai_generated_courses') || '[]');
+        const course = courses.find((c: GeneratedCourse) => c.id === courseId);
+        if (course) {
+          setGeneratedCourse(course);
+        }
       }
+    } catch (err) {
+      console.error('Error loading course:', err);
+      setError('Failed to load course');
+    } finally {
+      setLoading(false);
     }
   }, [courseId]);
+
+  if (loading) {
+    return (
+      <div className="course-loading" style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Loading course...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="course-error" style={{ padding: '2rem', textAlign: 'center' }}>
+        <h2>Error</h2>
+        <p>{error}</p>
+        <Link to="/courses">Back to Courses</Link>
+      </div>
+    );
+  }
 
   // Find the course from static curriculum
   let staticCourse = null;
@@ -165,7 +196,7 @@ const CourseDetail: React.FC = () => {
                     )}
                   </div>
                   
-                  {isExpanded && (
+                  {isExpanded && lesson.content && (
                     <div className="lesson-details">
                       <p>{lesson.content.substring(0, 300)}...</p>
                     </div>

@@ -41,34 +41,39 @@ const Lesson: React.FC = () => {
   let course = null;
   let phase = null;
   let lessonIndex = -1;
-  let generatedCourse = null;
-  if (lessonId?.startsWith('lesson-') && lessonId.includes('-')) {
-    // Find which generated course this lesson belongs to
-    const allGeneratedCourses = JSON.parse(localStorage.getItem('ai_generated_courses') || '[]');
-    for (const genCourse of allGeneratedCourses) {
-      const foundLesson = genCourse.lessons.find((l: any) => l.id === lessonId);
-      if (foundLesson) {
-        generatedCourse = genCourse;
-        lesson = foundLesson;
-        break;
-      }
-    }
-  }
-
-  // If not found in generated courses, check static curriculum
-  if (!lesson) {
-    for (const p of learningPath.phases) {
-      for (const c of p.courses) {
-        const foundLesson = c.lessons.find(l => l.id === lessonId);
+  let generatedCourse: any = null;
+  
+  try {
+    if (lessonId?.startsWith('lesson-') && lessonId.includes('-')) {
+      // Find which generated course this lesson belongs to
+      const allGeneratedCourses = JSON.parse(localStorage.getItem('ai_generated_courses') || '[]');
+      for (const genCourse of allGeneratedCourses) {
+        const foundLesson = genCourse.lessons.find((l: any) => l.id === lessonId);
         if (foundLesson) {
+          generatedCourse = genCourse;
           lesson = foundLesson;
-          course = c;
-          phase = p;
-          lessonIndex = c.lessons.findIndex(l => l.id === lessonId);
           break;
         }
       }
     }
+
+    // If not found in generated courses, check static curriculum
+    if (!lesson) {
+      for (const p of learningPath.phases) {
+        for (const c of p.courses) {
+          const foundLesson = c.lessons.find(l => l.id === lessonId);
+          if (foundLesson) {
+            lesson = foundLesson;
+            course = c;
+            phase = p;
+            lessonIndex = c.lessons.findIndex(l => l.id === lessonId);
+            break;
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Error loading lesson:', err);
   }
 
   useEffect(() => {
