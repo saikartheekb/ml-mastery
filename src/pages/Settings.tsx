@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, api } from '../services/supabase';
-import { AIProvider } from '../services/ai';
+import type { AIProvider } from '../services/ai';
 import './Settings.css';
 
 const Settings: React.FC = () => {
@@ -18,11 +18,11 @@ const Settings: React.FC = () => {
     // Load saved settings
     const loadSettings = async () => {
       if (supabase) {
-        const { data } = await api.getUserSettings(userId);
-        if (data) {
-          setOpenaiKey(data.openai_api_key || '');
-          setAnthropicKey(data.anthropic_api_key || '');
-          setProvider(data.ai_provider || 'openai');
+        const result = await api.getUserSettings(userId);
+        if (result?.data) {
+          setOpenaiKey(result.data.openai_api_key || '');
+          setAnthropicKey(result.data.anthropic_api_key || '');
+          setProvider(result.data.ai_provider || 'openai');
         }
       } else {
         // Load from localStorage as fallback

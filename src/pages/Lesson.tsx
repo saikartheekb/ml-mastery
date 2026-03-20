@@ -6,8 +6,9 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { learningPath } from '../data/curriculum';
 import { getUserProgress, completeLesson, addTimeSpent } from '../services/progress';
-import { generateExplanation, AIProvider } from '../services/ai';
-import { runPythonCode, loadPyodideEngine, CodeResult } from '../services/python';
+import { generateExplanation } from '../services/ai';
+import type { AIProvider } from '../services/ai';
+import { runPythonCode, loadPyodideEngine } from '../services/python';
 import './Lesson.css';
 
 const Lesson: React.FC = () => {

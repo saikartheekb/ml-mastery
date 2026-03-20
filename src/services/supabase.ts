@@ -89,7 +89,8 @@ export const api = {
   // User Settings
   async getUserSettings(userId: string) {
     if (!supabase) return null;
-    return supabase.from('user_settings').select('*').eq('user_id', userId).single();
+    const result = await supabase.from('user_settings').select('*').eq('user_id', userId).single();
+    return result;
   },
 
   async saveUserSettings(userId: string, settings: Partial<UserSettings>) {
