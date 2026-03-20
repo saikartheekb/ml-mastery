@@ -1,4 +1,4 @@
-/* Courses Page Styles */
+/* Courses Page Styles - Roadmap.sh inspired */
 .courses-page {
   max-width: 100%;
   margin: 0;
@@ -9,13 +9,15 @@
 }
 
 .page-header h1 {
-  font-size: 1.75rem;
+  font-size: 2rem;
+  font-weight: 700;
   color: #1f2937;
   margin-bottom: 0.5rem;
 }
 
 .page-header p {
   color: #6b7280;
+  font-size: 1.1rem;
 }
 
 /* Phase Section */
@@ -29,10 +31,10 @@
 
 .phase-badge {
   display: inline-block;
-  background: #3b82f6;
+  background: #2563eb;
   color: white;
   padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
+  border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
@@ -40,6 +42,7 @@
 
 .phase-header h2 {
   font-size: 1.5rem;
+  font-weight: 600;
   color: #1f2937;
   margin-bottom: 0.5rem;
 }
@@ -56,44 +59,44 @@
   color: #9ca3af;
 }
 
-/* Courses Grid */
+/* Courses Grid - Like roadmap.sh cards */
 .courses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
 }
 
-/* Course Card */
+/* Course Card - Clean and simple like roadmap.sh */
 .course-card {
   background: white;
-  border-radius: 16px;
-  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.25rem;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.2s;
   display: flex;
   flex-direction: column;
 }
 
 .course-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  border-color: #2563eb;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
 }
 
 .course-card.started {
-  border-left: 4px solid #10b981;
+  border-left: 3px solid #10b981;
 }
 
 .course-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .course-icon {
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
 
 .course-progress {
@@ -102,8 +105,8 @@
 
 .progress-ring {
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
 }
 
 .progress-ring svg {
@@ -120,7 +123,7 @@
 
 .progress-fill {
   fill: none;
-  stroke: #3b82f6;
+  stroke: #2563eb;
   stroke-width: 3;
   stroke-linecap: round;
 }
@@ -130,13 +133,14 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 600;
   color: #6b7280;
 }
 
 .course-card h3 {
-  font-size: 1.125rem;
+  font-size: 1rem;
+  font-weight: 600;
   color: #1f2937;
   margin-bottom: 0.5rem;
 }
@@ -144,46 +148,46 @@
 .course-description {
   font-size: 0.875rem;
   color: #6b7280;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   flex: 1;
   line-height: 1.5;
 }
 
 .course-meta {
   display: flex;
-  flex-wrap: wrap;
   gap: 0.75rem;
   font-size: 0.75rem;
   color: #9ca3af;
-  margin-bottom: 1rem;
 }
 
 .course-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f3f4f6;
 }
 
 .course-time {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: #6b7280;
 }
 
 .course-button {
-  background: #3b82f6;
+  background: #2563eb;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 6px;
+  font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .course-button:hover {
-  background: #2563eb;
+  background: #1d4ed8;
 }
 
 /* Empty State */

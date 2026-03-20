@@ -1,4 +1,4 @@
-/* Course Detail Styles */
+/* Course Detail Styles - Roadmap.sh inspired */
 .course-detail {
   max-width: 100%;
   margin: 0;
@@ -14,20 +14,24 @@
 }
 
 .back-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   color: #6b7280;
   text-decoration: none;
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
 }
 
 .back-link:hover {
-  color: #3b82f6;
+  color: #2563eb;
 }
 
 /* Course Header */
 .course-header {
   margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .course-info {
@@ -37,7 +41,7 @@
 }
 
 .course-icon {
-  font-size: 4rem;
+  font-size: 3.5rem;
 }
 
 .course-title-section {
@@ -46,7 +50,7 @@
 
 .phase-label {
   display: inline-block;
-  background: #3b82f6;
+  background: #2563eb;
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;

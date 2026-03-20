@@ -4,14 +4,14 @@
   margin: 0;
 }
 
-/* Welcome Section */
+/* Welcome Section - Roadmap.sh style */
 .welcome-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
-  border-radius: 16px;
-  padding: 2rem;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
   color: white;
   margin-bottom: 2rem;
 }
