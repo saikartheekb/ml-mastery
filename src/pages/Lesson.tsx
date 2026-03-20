@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 import { learningPath } from '../data/curriculum';
 import { getUserProgress, completeLesson, addTimeSpent } from '../services/progress';
 import './Lesson.css';
@@ -111,7 +114,7 @@ const Lesson: React.FC = () => {
           <div className="theory-section">
             <h2>Theory</h2>
             <div className="markdown-content">
-              <ReactMarkdown>{lesson.content}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{lesson.content}</ReactMarkdown>
             </div>
           </div>
 
