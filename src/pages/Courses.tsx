@@ -119,8 +119,10 @@ const Courses: React.FC = () => {
 
           <div className="courses-grid">
             {generatedCourses.map(course => {
+              const lessons = course.lessons || [];
               const completedLessons = progress.completedLessons.filter(l => l.startsWith(course.id.split('-')[0])).length;
-              const courseProgress = Math.round((completedLessons / course.lessons.length) * 100);
+              const totalLessons = lessons.length || 1;
+              const courseProgress = Math.round((completedLessons / totalLessons) * 100);
               const isStarted = completedLessons > 0;
               
               return (
@@ -153,7 +155,7 @@ const Courses: React.FC = () => {
                   <p className="course-description">{course.description}</p>
                   
                   <div className="course-meta">
-                    <span>📖 {course.lessons.length} Lessons</span>
+                    <span>📖 {lessons.length} Lessons</span>
                   </div>
                   
                   <div className="course-footer">

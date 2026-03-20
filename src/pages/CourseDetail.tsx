@@ -88,7 +88,7 @@ const CourseDetail: React.FC = () => {
 
   // Get lessons from either source
   const lessons = generatedCourse 
-    ? generatedCourse.lessons.map(l => ({
+    ? (generatedCourse.lessons || []).map(l => ({
         id: l.id,
         title: l.title,
         content: l.content,
