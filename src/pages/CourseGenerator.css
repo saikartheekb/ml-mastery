@@ -31,8 +31,8 @@
 }
 
 .generator-card {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 1.5rem;
@@ -45,7 +45,7 @@
 .input-section label {
   display: block;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
@@ -53,7 +53,7 @@
   width: 100%;
   padding: 0.875rem 1rem;
   font-size: 1rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border);
   border-radius: 8px;
   transition: all 0.2s;
   box-sizing: border-box;
@@ -66,7 +66,7 @@
 }
 
 .input-section input:disabled {
-  background: #f3f4f6;
+  background: var(--code-bg);
   cursor: not-allowed;
 }
 
@@ -113,9 +113,9 @@
   width: 100%;
   padding: 0.875rem 1rem;
   font-size: 1rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: white;
+  background: var(--bg);
   cursor: pointer;
 }
 
@@ -178,7 +178,7 @@
 .suggested-topics h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 0.75rem;
 }
 
@@ -192,15 +192,15 @@
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   color: #4b5563;
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .topic-chip:hover:not(:disabled) {
-  background: #f3f4f6;
+  background: var(--code-bg);
   border-color: #2563eb;
   color: #2563eb;
 }
@@ -218,8 +218,8 @@
 }
 
 .info-card {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1.25rem;
 }
@@ -227,7 +227,7 @@
 .info-card h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.75rem;
 }
 
@@ -235,7 +235,7 @@
 .info-card ul {
   margin: 0;
   padding-left: 1.25rem;
-  color: #6b7280;
+  color: var(--text);
   font-size: 0.9rem;
 }
 
@@ -244,14 +244,14 @@
 }
 
 .info-card p {
-  color: #6b7280;
+  color: var(--text);
   font-size: 0.9rem;
 }
 
 .settings-prompt {
   text-align: center;
   padding: 1rem;
-  color: #6b7280;
+  color: var(--text);
 }
 
 .settings-prompt a {
@@ -271,12 +271,12 @@
 .topics-section h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
 .topics-intro {
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 1.5rem;
 }
 
@@ -302,8 +302,8 @@
 }
 
 .topic-card {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1.25rem;
   text-align: left;
@@ -352,13 +352,13 @@
 .topic-card h4 {
   font-size: 1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
 .topic-card p {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 0.75rem;
   line-height: 1.4;
 }
@@ -372,7 +372,7 @@
 
 /* Selected Topic Card */
 .selected-topic-card {
-  background: white;
+  background: var(--bg);
   border: 2px solid #2563eb;
   border-radius: 12px;
   padding: 1.5rem;
@@ -410,17 +410,17 @@
 
 .selected-topic-category {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--text);
 }
 
 .selected-topic-card h2 {
   font-size: 1.5rem;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
 .selected-topic-card p {
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 0.75rem;
 }
 
@@ -428,7 +428,7 @@
   display: flex;
   gap: 1rem;
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
@@ -452,7 +452,7 @@
 .custom-topic-section label {
   display: block;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
@@ -460,7 +460,7 @@
   width: 100%;
   padding: 0.875rem 1rem;
   font-size: 1rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border);
   border-radius: 8px;
   box-sizing: border-box;
 }

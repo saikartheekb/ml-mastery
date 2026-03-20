@@ -11,12 +11,12 @@
 .page-header h1 {
   font-size: 2rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
 .page-header p {
-  color: #6b7280;
+  color: var(--text);
   font-size: 1.1rem;
 }
 
@@ -43,12 +43,12 @@
 .phase-header h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
 .phase-header p {
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 0.75rem;
 }
 
@@ -68,8 +68,8 @@
 
 /* Course Card - Clean and simple like roadmap.sh */
 .course-card {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1.25rem;
   text-decoration: none;
@@ -135,19 +135,19 @@
   transform: translate(-50%, -50%);
   font-size: 0.6rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--text);
 }
 
 .course-card h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
 .course-description {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 0.75rem;
   flex: 1;
   line-height: 1.5;
@@ -171,7 +171,7 @@
 
 .course-time {
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--text);
 }
 
 .course-button {
@@ -194,7 +194,7 @@
 .empty-phase {
   text-align: center;
   padding: 3rem;
-  color: #6b7280;
+  color: var(--text);
 }
 
 /* Generate CTA Card */
@@ -238,7 +238,7 @@
 }
 
 .generate-cta-button {
-  background: white;
+  background: var(--bg);
   color: #2563eb;
   padding: 0.75rem 1.25rem;
   border-radius: 8px;

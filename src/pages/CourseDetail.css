@@ -17,7 +17,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #6b7280;
+  color: var(--text);
   text-decoration: none;
   margin-bottom: 1.5rem;
   font-size: 0.9rem;
@@ -61,17 +61,17 @@
 
 .course-title-section h1 {
   font-size: 1.75rem;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
 .course-title-section p {
-  color: #6b7280;
+  color: var(--text);
 }
 
 /* Course Progress Card */
 .course-progress-card {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -85,7 +85,7 @@
 
 .progress-label {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
 }
 
 .progress-value {
@@ -113,7 +113,7 @@
   display: flex;
   gap: 1.5rem;
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
 }
 
 /* Course Content */
@@ -125,7 +125,7 @@
 
 .content-section h2 {
   font-size: 1.25rem;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 1rem;
 }
 
@@ -137,7 +137,7 @@
 }
 
 .lesson-item {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -178,7 +178,7 @@
   background: #e5e7eb;
   font-weight: 600;
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
 }
 
 .status-icon.completed {
@@ -197,7 +197,7 @@
 
 .lesson-info h3 {
   font-size: 1rem;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.25rem;
 }
 
@@ -207,8 +207,8 @@
 }
 
 .lesson-button {
-  background: #f3f4f6;
-  color: #1f2937;
+  background: var(--code-bg);
+  color: var(--text-h);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -230,7 +230,7 @@
 
 .lesson-details p {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 0.75rem;
 }
 
@@ -249,7 +249,7 @@
 }
 
 .assessment-item {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   padding: 1.25rem;
   display: flex;
@@ -274,7 +274,7 @@
 
 .assessment-info h3 {
   font-size: 1rem;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.25rem;
 }
 
@@ -312,8 +312,8 @@
 }
 
 .assessment-button.secondary {
-  background: #f3f4f6;
-  color: #1f2937;
+  background: var(--code-bg);
+  color: var(--text-h);
 }
 
 /* Projects List */
@@ -324,7 +324,7 @@
 }
 
 .project-item {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   padding: 1.25rem;
   display: flex;
@@ -349,13 +349,13 @@
 
 .project-info h3 {
   font-size: 1rem;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.25rem;
 }
 
 .project-info p {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 0.5rem;
 }
 
@@ -382,6 +382,6 @@
 }
 
 .project-button.secondary {
-  background: #f3f4f6;
-  color: #1f2937;
+  background: var(--code-bg);
+  color: var(--text-h);
 }

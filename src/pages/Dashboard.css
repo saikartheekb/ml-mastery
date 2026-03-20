@@ -47,7 +47,7 @@
 }
 
 .stat-card {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   padding: 1.25rem;
   display: flex;
@@ -68,12 +68,12 @@
 .stat-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--text-h);
 }
 
 .stat-label {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
 }
 
 .stat-progress {
@@ -98,13 +98,13 @@
 .section-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 1rem;
 }
 
 /* Continue Card */
 .continue-card {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   padding: 1.5rem;
   text-decoration: none;
@@ -135,11 +135,11 @@
 .continue-card h3 {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
-  color: #1f2937;
+  color: var(--text-h);
 }
 
 .continue-card p {
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
@@ -147,7 +147,7 @@
   display: flex;
   gap: 1rem;
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
@@ -168,7 +168,7 @@
 
 /* Empty State */
 .empty-state {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   padding: 3rem;
   text-align: center;
@@ -176,7 +176,7 @@
 }
 
 .empty-state p {
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
@@ -198,7 +198,7 @@
 }
 
 .phase-card {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   padding: 1.25rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -237,12 +237,12 @@
 .phase-card h3 {
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  color: #1f2937;
+  color: var(--text-h);
 }
 
 .phase-card p {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 0.75rem;
 }
 
@@ -256,8 +256,8 @@
 
 .phase-button {
   display: inline-block;
-  background: #f3f4f6;
-  color: #1f2937;
+  background: var(--code-bg);
+  color: var(--text-h);
   padding: 0.5rem 1rem;
   border-radius: 6px;
   text-decoration: none;
@@ -278,7 +278,7 @@
 }
 
 .action-card {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
@@ -302,7 +302,7 @@
 .action-label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #1f2937;
+  color: var(--text-h);
 }
 
 /* Achievements Grid */
@@ -313,7 +313,7 @@
 }
 
 .Achievement-card {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   padding: 1.25rem;
   display: flex;
@@ -330,10 +330,10 @@
 .achievement-info h4 {
   font-size: 1rem;
   margin-bottom: 0.25rem;
-  color: #1f2937;
+  color: var(--text-h);
 }
 
 .achievement-info p {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
 }

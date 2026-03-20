@@ -11,17 +11,17 @@
 
 .settings-header h1 {
   font-size: 2rem;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
 .settings-header p {
-  color: #6b7280;
+  color: var(--text);
   font-size: 1rem;
 }
 
 .settings-section {
-  background: white;
+  background: var(--bg);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
@@ -30,12 +30,12 @@
 
 .settings-section h2 {
   font-size: 1.25rem;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
 .section-description {
-  color: #6b7280;
+  color: var(--text);
   font-size: 0.875rem;
   margin-bottom: 1rem;
 }
@@ -80,12 +80,12 @@
 
 .provider-name {
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-h);
 }
 
 .provider-desc {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--text);
 }
 
 /* API Key Fields */
@@ -114,7 +114,7 @@
 .key-input-wrapper input {
   flex: 1;
   padding: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border);
   border-radius: 6px;
   font-family: monospace;
   font-size: 0.875rem;
@@ -128,8 +128,8 @@
 
 .toggle-visibility {
   padding: 0.5rem 0.75rem;
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
   border-radius: 6px;
   cursor: pointer;
 }
@@ -161,19 +161,19 @@
   flex: 1;
   min-width: 150px;
   padding: 1rem;
-  background: #f9fafb;
+  background: var(--bg);
   border-radius: 8px;
 }
 
 .pricing-card h3 {
   font-size: 1rem;
-  color: #1f2937;
+  color: var(--text-h);
   margin-bottom: 0.5rem;
 }
 
 .pricing-card p {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text);
 }
 
 .pricing-card .estimate {
@@ -212,7 +212,7 @@
 
 .clear-button {
   padding: 0.75rem 1.5rem;
-  background: white;
+  background: var(--bg);
   color: #ef4444;
   border: 1px solid #ef4444;
   border-radius: 8px;
@@ -238,7 +238,7 @@
 
 .settings-section.privacy li {
   padding: 0.5rem 0;
-  color: #6b7280;
+  color: var(--text);
   display: flex;
   align-items: center;
   gap: 0.5rem;
