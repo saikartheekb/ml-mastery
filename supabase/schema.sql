@@ -42,6 +42,7 @@ CREATE TABLE user_settings (
   user_id TEXT NOT NULL UNIQUE,
   openai_api_key TEXT,
   anthropic_api_key TEXT,
+  gemini_api_key TEXT,
   ai_provider TEXT DEFAULT 'openai',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()

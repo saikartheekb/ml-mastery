@@ -6,10 +6,11 @@ import './Settings.css';
 const Settings: React.FC = () => {
   const [openaiKey, setOpenaiKey] = useState('');
   const [anthropicKey, setAnthropicKey] = useState('');
+  const [geminiKey, setGeminiKey] = useState('');
   const [provider, setProvider] = useState<AIProvider>('openai');
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showKeys, setShowKeys] = useState({ openai: false, anthropic: false });
+  const [showKeys, setShowKeys] = useState({ openai: false, anthropic: false, gemini: false });
 
   // Generate a simple user ID (in production, use Supabase Auth)
   const userId = 'local-user';
@@ -31,6 +32,7 @@ const Settings: React.FC = () => {
           const settings = JSON.parse(saved);
           setOpenaiKey(settings.openaiKey || '');
           setAnthropicKey(settings.anthropicKey || '');
+          setGeminiKey(settings.geminiKey || '');
           setProvider(settings.provider || 'openai');
         }
       }
@@ -45,6 +47,7 @@ const Settings: React.FC = () => {
     const settings = {
       openai_api_key: openaiKey,
       anthropic_api_key: anthropicKey,
+      gemini_api_key: geminiKey,
       ai_provider: provider
     };
 
@@ -55,6 +58,7 @@ const Settings: React.FC = () => {
       localStorage.setItem('ai_settings', JSON.stringify({
         openaiKey: openaiKey,
         anthropicKey: anthropicKey,
+        geminiKey: geminiKey,
         provider: provider
       }));
     }
@@ -67,6 +71,7 @@ const Settings: React.FC = () => {
   const clearKeys = () => {
     setOpenaiKey('');
     setAnthropicKey('');
+    setGeminiKey('');
     localStorage.removeItem('ai_settings');
   };
 
@@ -109,6 +114,20 @@ const Settings: React.FC = () => {
             <div className="provider-info">
               <span className="provider-name">Anthropic (Claude)</span>
               <span className="provider-desc">Great for explanations</span>
+            </div>
+          </label>
+
+          <label className={`provider-option ${provider === 'gemini' ? 'selected' : ''}`}>
+            <input
+              type="radio"
+              name="provider"
+              value="gemini"
+              checked={provider === 'gemini'}
+              onChange={() => setProvider('gemini')}
+            />
+            <div className="provider-info">
+              <span className="provider-name">Google (Gemini)</span>
+              <span className="provider-desc">Fast & capable</span>
             </div>
           </label>
         </div>
@@ -180,6 +199,36 @@ const Settings: React.FC = () => {
             Get Anthropic Key →
           </a>
         </div>
+
+        <div className="api-key-field">
+          <label>
+            Google Gemini API Key
+            <span className="optional">(optional)</span>
+          </label>
+          <div className="key-input-wrapper">
+            <input
+              type={showKeys.gemini ? 'text' : 'password'}
+              value={geminiKey}
+              onChange={(e) => setGeminiKey(e.target.value)}
+              placeholder="AIza..."
+            />
+            <button
+              type="button"
+              className="toggle-visibility"
+              onClick={() => setShowKeys(prev => ({ ...prev, gemini: !prev.gemini }))}
+            >
+              {showKeys.gemini ? '👁️' : '👁️‍🗨️'}
+            </button>
+          </div>
+          <a 
+            href="https://aistudio.google.com/app/apikey" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="get-key-link"
+          >
+            Get Gemini Key →
+          </a>
+        </div>
       </div>
 
       <div className="settings-section">
@@ -194,6 +243,11 @@ const Settings: React.FC = () => {
             <h3>Anthropic</h3>
             <p>~$0.00025 per 1K tokens (Claude Haiku)</p>
             <p className="estimate">~50-100 questions = ~$0.01</p>
+          </div>
+          <div className="pricing-card">
+            <h3>Google Gemini</h3>
+            <p>~$0.0005 per 1K tokens (Gemini Pro)</p>
+            <p className="estimate">~20-40 questions = ~$0.01</p>
           </div>
         </div>
       </div>

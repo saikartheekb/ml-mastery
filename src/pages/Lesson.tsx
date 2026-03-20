@@ -74,7 +74,14 @@ const Lesson: React.FC = () => {
       if (!savedSettings) return;
       
       const settings = JSON.parse(savedSettings);
-      const apiKey = settings.provider === 'openai' ? settings.openaiKey : settings.anthropicKey;
+      let apiKey = '';
+      if (settings.provider === 'openai') {
+        apiKey = settings.openaiKey;
+      } else if (settings.provider === 'anthropic') {
+        apiKey = settings.anthropicKey;
+      } else {
+        apiKey = settings.geminiKey;
+      }
       if (!apiKey) return;
       
       setAutoExplanationLoading(true);
@@ -160,7 +167,14 @@ const Lesson: React.FC = () => {
     }
     
     const settings = JSON.parse(savedSettings);
-    const apiKey = settings.provider === 'openai' ? settings.openaiKey : settings.anthropicKey;
+    let apiKey = '';
+    if (settings.provider === 'openai') {
+      apiKey = settings.openaiKey;
+    } else if (settings.provider === 'anthropic') {
+      apiKey = settings.anthropicKey;
+    } else {
+      apiKey = settings.geminiKey;
+    }
     
     if (!apiKey) {
       setAiError('Please add your API key in Settings!');

@@ -43,7 +43,8 @@ export interface UserSettings {
   user_id: string;
   openai_api_key?: string;
   anthropic_api_key?: string;
-  ai_provider: 'openai' | 'anthropic';
+  gemini_api_key?: string;
+  ai_provider: 'openai' | 'anthropic' | 'gemini';
   created_at: string;
   updated_at: string;
 }

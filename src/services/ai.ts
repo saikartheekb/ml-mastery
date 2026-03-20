@@ -1,6 +1,6 @@
 // AI Service - Uses user's API key to generate explanations
 
-export type AIProvider = 'openai' | 'anthropic';
+export type AIProvider = 'openai' | 'anthropic' | 'gemini';
 
 export interface AIConfig {
   provider: AIProvider;
@@ -83,6 +83,45 @@ async function generateWithAnthropic(apiKey: string, prompt: string): Promise<st
   return data.content[0]?.text || 'No response generated';
 }
 
+// Generate explanation using Google Gemini
+async function generateWithGemini(apiKey: string, prompt: string): Promise<string> {
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [
+            {
+              text: prompt
+            }
+          ]
+        },
+        {
+          parts: [
+            {
+              text: 'You are an expert ML/AI tutor. Explain concepts clearly with examples. Use markdown formatting for better readability.'
+            }
+          ]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 500
+      }
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Gemini API error: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.candidates[0]?.content?.parts[0]?.text || 'No response generated';
+}
+
 // Main AI explanation function
 export async function generateExplanation(
   config: AIConfig,
@@ -116,8 +155,10 @@ Please include:
 
     if (config.provider === 'openai') {
       explanation = await generateWithOpenAI(config.apiKey, prompt);
-    } else {
+    } else if (config.provider === 'anthropic') {
       explanation = await generateWithAnthropic(config.apiKey, prompt);
+    } else {
+      explanation = await generateWithGemini(config.apiKey, prompt);
     }
 
     return {
@@ -152,8 +193,10 @@ Each question should have 4 options with one correct answer.`;
 
     if (config.provider === 'openai') {
       response = await generateWithOpenAI(config.apiKey, prompt);
-    } else {
+    } else if (config.provider === 'anthropic') {
       response = await generateWithAnthropic(config.apiKey, prompt);
+    } else {
+      response = await generateWithGemini(config.apiKey, prompt);
     }
 
     // Try to parse as JSON
